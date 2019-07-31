@@ -2,6 +2,8 @@ package com.travel.planner.todolistner.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -27,7 +29,7 @@ public class TaskTodo implements Serializable {
 
     @NotBlank(message = "Task Title can not blank.")
     @Size(max = 100)
-    @UniqueElements(message = "Todo Title is unique.")
+    @Column(unique = true)
     private String title;
 
     private Boolean completed = false;
@@ -35,12 +37,12 @@ public class TaskTodo implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
-    @CreatedDate
+    @CreationTimestamp
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
-    @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedAt;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -86,6 +88,11 @@ public class TaskTodo implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
     }
 
     @Override

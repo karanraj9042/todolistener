@@ -61,7 +61,7 @@ public class TaskTodoMessageProducer {
 
     @Override
     public String toString() {
-        return "TaskTodoMessageProducer{" +
+        return "{" +
                 "taskId=" + taskId +
                 ", title='" + title + '\'' +
                 ", completed=" + completed +
